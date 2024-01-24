@@ -1,7 +1,19 @@
 # Awesome Stacks Security
 
 ## Contents
+[Vulnerabilities](https://github.com/plain-shift/awesome-stacks-security#vulnerabilities)
+- [Missing threshold check](https://github.com/plain-shift/awesome-stacks-security#missing-threshold-check)
+- [Lack of access control](https://github.com/plain-shift/awesome-stacks-security#lack-of-access-control)
+- [Frontrunning issues](https://github.com/plain-shift/awesome-stacks-security#frontrunning-issues)
+- [Phishing with tx-sender](https://github.com/plain-shift/awesome-stacks-security#use-contract-caller-instead-of-tx-sender-for-authentication-purposes)
+- [Signature replay](https://github.com/plain-shift/awesome-stacks-security#signature-replay)
+- [Weak randomness](https://github.com/plain-shift/awesome-stacks-security#weak-randomness)
 
+[Best Practices](https://github.com/plain-shift/awesome-stacks-security#best-practices)
+- [Unnecessary begin](https://github.com/plain-shift/awesome-stacks-security#unnecessary-begin)
+- [Unnecessary and](https://github.com/plain-shift/awesome-stacks-security#unnecessary-and)
+- [Unnecessary if statements](https://github.com/plain-shift/awesome-stacks-security#unnecessary-if-statements)
+- [Use of unwrap-panic](https://github.com/plain-shift/awesome-stacks-security#avoid-using-panic-unwrap-functions-unless-a-prior-check-is-present)
 
 ### Intro
 
@@ -17,6 +29,7 @@ We have created a checklist of issues that projects should look for before under
 
 ---
 
+## Vulnerabilities
 ### Missing threshold check
 
 When appropriate, authenticated functions should include threshold checks to minimize centralization risk.
@@ -258,34 +271,33 @@ It is recommended to remove the `begin` keyword if a function contains only one 
 
 ---
 
-### Unnecessary begin
+### Unnecessary and
 
-If a function consists of only one expression, using `begin` is unnecessary and serves no purpose other than increasing the execution cost.
+Just like `begin`, using `and` when there is only one expression is unnecessary. It will only increase the cost of execution.
 
-Example: 
-```clarity
-(define-public (with-begin)
-    (begin
-        (ok true)
-    )
+
+Example:
+```
+(define-public (with-and)
+    (ok (and true))
 )
 
-(define-public (without-begin)
+(define-public (without-and)
     (ok true)
 )
 ```
 
 Cost comparison: 
 ```
->> ::get_costs (contract-call? .unnecessary-begin with-begin)
+>> ::get_costs (contract-call? .unnecessary-and with-and)
 +----------------------+----------+------------+------------+
 |                      | Consumed | Limit      | Percentage |
 +----------------------+----------+------------+------------+
-| Runtime              | 816      | 5000000000 | 0.00 %     |
+| Runtime              | 767      | 5000000000 | 0.00 %     |
 +----------------------+----------+------------+------------+
 | Read count           | 3        | 15000      | 0.02 %     |
 +----------------------+----------+------------+------------+
-| Read length (bytes)  | 350      | 100000000  | 0.00 %     |
+| Read length (bytes)  | 329      | 100000000  | 0.00 %     |
 +----------------------+----------+------------+------------+
 | Write count          | 0        | 15000      | 0.00 %     |
 +----------------------+----------+------------+------------+
@@ -293,16 +305,15 @@ Cost comparison:
 +----------------------+----------+------------+------------+
 
 (ok true)
-
->> ::get_costs (contract-call? .unnecessary-begin without-begin)
+>> ::get_costs (contract-call? .unnecessary-and without-and)
 +----------------------+----------+------------+------------+
 |                      | Consumed | Limit      | Percentage |
 +----------------------+----------+------------+------------+
-| Runtime              | 649      | 5000000000 | 0.00 %     |
+| Runtime              | 628      | 5000000000 | 0.00 %     |
 +----------------------+----------+------------+------------+
 | Read count           | 3        | 15000      | 0.02 %     |
 +----------------------+----------+------------+------------+
-| Read length (bytes)  | 350      | 100000000  | 0.00 %     |
+| Read length (bytes)  | 329      | 100000000  | 0.00 %     |
 +----------------------+----------+------------+------------+
 | Write count          | 0        | 15000      | 0.00 %     |
 +----------------------+----------+------------+------------+
@@ -311,8 +322,6 @@ Cost comparison:
 
 (ok true)
 ```
-
-It is recommended to remove the `begin` keyword if a function contains only one expression.
 
 ---
 
@@ -342,7 +351,7 @@ Often, unnecessary if statements and nesting can introduce complexity to smart c
 
 ---
 
-### Avoid using panic unwrap functions unless a prior check is present
+### Avoid using unwrap panic functions unless a prior check is present
 
 It is recommended to define constants for different errors and their corresponding error codes. When handling errors, it is preferable to use `unwrap!` and `unwrap-err!` with the error constant instead of using `unwrap-panic` and `unwrap-err-panic`. 
 
