@@ -1,5 +1,8 @@
 # Awesome Stacks Security
 
+The [original article](https://plainshift.io/blog/clarity-smart-contract-security-guide) will be acively updated as per this repo.
+If you'd like to add issues/sections, propose fixes, or any other ideas you might have, feel free to open a PR and contribute!   
+
 ## Contents
 [Vulnerabilities](https://github.com/plain-shift/awesome-stacks-security#vulnerabilities)
 - [Missing threshold check](https://github.com/plain-shift/awesome-stacks-security#missing-threshold-check)
@@ -14,18 +17,6 @@
 - [Unnecessary and](https://github.com/plain-shift/awesome-stacks-security#unnecessary-and)
 - [Unnecessary if statements](https://github.com/plain-shift/awesome-stacks-security#unnecessary-if-statements)
 - [Use of unwrap-panic](https://github.com/plain-shift/awesome-stacks-security#avoid-using-panic-unwrap-functions-unless-a-prior-check-is-present)
-
-### Intro
-
-While reviewing Clarity smart contract audits, we've noticed several easily identifiable issues of varying severity that often divert the auditor's attention from more logically complex findings, consuming valuable time.
-
-This situation presents a mutual disadvantage for both developers and auditors, as it hinders productivity and adds challenges to the auditing process for identifying and addressing more critical problems.
-
-Developers often allocate a significant amount of time to the mitigation process, focusing on implementing fixes for trivial issues. As a result, they have less time available to address more complex and challenging issues.
-
-Auditors often find themselves spending more time reporting these easy to spot issues, which reduces the time they can dedicate to exploring edge cases and addressing more in-depth problems within the allotted timeline.
-
-We have created a checklist of issues that projects should look for before undergoing audits. This guide covers both vulnerabilities and best practices commonly seen reported in Stacks audits.
 
 ---
 
