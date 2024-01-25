@@ -1,6 +1,6 @@
 # Awesome Stacks Security
 
-The [original article](https://plainshift.io/blog/clarity-smart-contract-security-guide) will be acively updated as per this repo.
+The [original article](https://plainshift.io/blog/clarity-smart-contract-security-guide) will be actively updated as per this repo.
 If you'd like to add issues/sections, propose fixes, or any other ideas you might have, feel free to open a PR and contribute!   
 
 ## Contents
